@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: todo-api
+
+  datasource:
+    url: jdbc:sqlite:./data/todo.db
+    driver-class-name: org.sqlite.JDBC
+    hikari:
+      maximum-pool-size: 1
+      connection-test-query: SELECT 1
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+server:
+  port: 8080
