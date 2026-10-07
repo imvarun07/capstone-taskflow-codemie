@@ -23,9 +23,9 @@
   "gaps": [
     {
       "id": "GAP-001",
-      "category": "CJ/CD",
+      "category": "CIH/CD",
       "title": "No CI workflow to build/lint/test backend + frontend",
-      "description": "No .github/workflows/ directory detected in root listing;"CI' pipeline not present to run backend build/tests and frontend build/lint.",
+      "description": "No .github/workflows/ directory evidenced in repo root; no pipeline to run backend build/tests and frontend build/lint.\n\\nEvidence: repo root listing lacks .github/workflows/.",
       "priority": "High",
       "effort": "Medium",
       "classification": "APPROVED"
@@ -34,7 +34,7 @@
       "id": "GAP-002",
       "category": "Deployment/Operational",
       "title": "No containerization for running full stack",
-      "description": "No Dockerfile or docker-compose files evidenced in root listing; app is run manually via separate backend/frontend commands.",
+      "description": "No Dockerfile or docker-compose files evidenced in repo root;"Apparent run flow is backend (Maven) + frontend (npm) separately.\n\nEvidence: repo root listing lacks Dockerfile/docker-compose.",
       "priority": "High",
       "effort": "Medium",
       "classification": "APPROVED"
@@ -43,7 +43,7 @@
       "id": "GAP-003",
       "category": "Testing/Quality",
       "title": "No frontend automated tests configured",
-      "description": "frontend/package.json has dev/build/lint/preview but no test script or test dependencies (e.g., vitest/jest/playwright).",
+      "description": "frontend/package.json has scripts for dev/build/lint/preview but no test script and no evidenced test framework dependencies (e.g., vitest/jest/playwright).\n\nEvidence: frontend/package.json.",
       "priority": "Medium",
       "effort": "Medium",
       "classification": "APPROVED"
@@ -51,8 +51,8 @@
     {
       "id": "GAP-004",
       "category": "Testing/Quality",
-      "title": "Missing integration-test coverage for persistence layer",
-      "description": "Backend tests include a context smoke test and a @WebMvcTest controller test with mocked TodoService (backend/src/test/java/../TodoControllerTest.java);"but no evidenced integration tests that hit the SQLite database/repository.",
+      "title": "Missing integration-level tests for persistence layer",
+      "description": "Existing tests are app-context smoke and controller wei-test with mocked TodoService, so they do not hit SQLite/repository behavior. In particular, backend/src/test/java/com/example/todo/controller/TodoControllerTest.java uses @WebMvcTest and ` @MockitoBean TodoService`.\n\\nEvidence: backend/src/test/java/../TodoControllerTest.java, backend/src/test/java/.../TodoApplicationTests.java.",
       "priority": "Medium",
       "effort": "Medium",
       "classification": "APPROVED"
@@ -61,7 +61,8 @@
       "id": "GAP-005",
       "category": "API/Docs",
       "title": "No machine-readable API contract (OpenAPI/Swagger)",
-      "description": "backend/pom.xml does not include an OpenAPI/Swagger generation dependency (e.g., springdoc); instead there is only a human-readable API section in README.md.",
+      "description": "backend/pom.xml does not include an OpenAPI/Swagger generation dependency (eg, springdoc-openapi); API
+ is documented only in human-readable README.md.\n\nEvidence: backend/pom.xml, README.md.",
       "priority": "Medium",
       "effort": "Small",
       "classification": "APPROVED"
@@ -70,7 +71,7 @@
       "id": "GAP-006",
       "category": "Security",
       "title": "No authentication/authorization protecting API",
-      "description": "No Spring Security dependency evidenced in backend/pom.xml; the TodoController provides public CRUD endpoints under /api/todos.",
+      "description": "No Spring Security dependency evidenced in backend/pom.xml; controller exposes public CRUD endpoints under /api/todos.\n\\nEvidence: backend/pom.xml, backend/src/main/java/../TodoController.java.",
       "priority": "High",
       "effort": "Large",
       "classification": "DEFERRED"
@@ -79,7 +80,7 @@
       "id": "GAP-007",
       "category": "Security / Configuration",
       "title": "CORS policy not explicitly defined for non-dev usage",
-      "description": "frontend/vite.config.ts uses a dev proxy for /api to http://localhost:8080; no backend CORS config was evidenced among the inspected backend config package (config/ contains only DataSourceInitializer.), so cross-origin behavior outside dev proxy is unclear.",
+      "description": "frontend/vite.config.ts uses a dev proxy for /api to http://localhost:8080. No backend CORS policy config class reviewed in backend/src/main/java/com/example/todo/config (contains only DataSourceInitializer.java).\n\nEvidence: frontend/vite.config.ts, backend/src/main/java/../config/DataSourceInitializer.java.",
       "priority": "Medium",
       "effort": "Small",
       "classification": "DEFERRED"
@@ -87,8 +88,8 @@
     {
       "id": "GAP-008",
       "category": "Configuration/Environment",
-      "title": "Config not parameterized (DB URL, port, profiles)",
-      "description": "backend/src/main/resources/application.yml hardcodes jsri:csqlite:./data/todo.db and server.port:8080; no profile-specific YAML or env var documentation evidenced.",
+      "title": "Config not parameterized (DB url, port, profiles)",
+      "description": "backend/src/main/resources/application.yml hardcodes `jabc:sqlite:./data/todo.db` and `server.port: 8080`. No profile-specific YML or env-var documentation evidenced.\n\nEvidence: backend/src/main/resources/application.yml.",
       "priority": "Medium",
       "effort": "Small",
       "classification": "APPROVED"
@@ -97,7 +98,7 @@
       "id": "GAP-009",
       "category": "Database/Data management",
       "title": "No documented seed/reset data lifecycle for dev/test",
-      "description": "Flyway migration exists (backend/src/main/resources/db/migration/V1__create_todos_table.sql) and runtime creates ./data directory (DataSourceInitializer.), but no seeding scripts, test fixtures, or reset tooling/docs were evidenced.",
+      "description": "Flyway migration exists (backend/src/main/resources/db/migration/V1__create_todos_table.sql) and runtime creates ./data directory (backend/src/main/java/.../config/DataSourceInitializer.java), but no seeding scripts, test fixtures, or reset tooling/docs evidenced.\n\\nEvidence: backend/src/main/resources/db/migration/V1__create_todos_table.sql; backend/src/main/java/.../config/DataSourceInitializer.java.",
       "priority": "Medium",
       "effort": "Small",
       "classification": "APPROVED"
@@ -106,7 +107,7 @@
       "id": "GAP-010",
       "category": "Observability/Maintainability",
       "title": "No health/metrics endpoints (Actuator)",
-      "description": "No spring-boot-starter-actuator dependency evidenced in backend/pom.xml; no health endpoint docs config enidenced.",
+      "description": "No spring-boot-starter-actuator dependency evidenced in backend/pom.xml; no health endpoint config/docs evidenced.\n\nEvidence: backend/pom.xml.",
       "priority": "Low",
       "effort": "Small",
       "classification": "DEFERRED"
@@ -115,7 +116,7 @@
       "id": "GAP-011",
       "category": "Documentation",
       "title": "Limited developer documentation beyond basic run steps",
-      "description": "Root README.md provides basic run instructions and an API table; no deticated docs/ tree was evidenced in root listing (pre-handoff).",
+      "description": "Root README.md provides basic run instructions and an API table; no dedicated documentation tree / architecture notes/workflows evidenced (pre-patch).\n\\nEvidence: README.md; initial repo root listing lacked docs/.",
       "priority": "Medium",
       "effort": "Small",
       "classification": "APPROVED"
