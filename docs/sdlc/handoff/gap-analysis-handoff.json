@@ -1,0 +1,114 @@
+{
+  "metadata": {
+    "project": "capstone-taskflow-codemie",
+    "repository": "https://github.com/imvarun07/capstone-taskflow-codemie",
+    "branch": "main",
+    "commit": "52d33cccf4e85b52ae9e16fc51e584eb2db74945",
+    "generatedBy": "Capstone Gap Analysis Assistant",
+    "generatedAt": "2026-10-07T00:00:00Z"
+  },
+  "workflow": {
+    "status": "AWAITING_HITL",
+    "implementationStatus": "NOT_STARTED",
+    "currentPhase": "Gap Analysis",
+    "nextPhase": "Human HITLClassification"
+  },
+  "summary": {
+    "totalGaps": 10
+  },
+  "gaps": [
+    {
+      "gapId": "GAP-001",
+      "title": "Missing GitHub Actions CI/CD workflows (build/test/lint gates)",
+      "description": "The repo has no .github/workflows/* workflows to automate backend and frontend build/test/lint. This reduces confidence in changes and makes regressions more likely to land.",
+      "evidence": "Repo tree at commit 52d33cc. No .github/workflows directory or yml files.",
+      "impact": "Regressions can merge undetected; lower confidence in releases.",
+      "priority": "High",
+      "estimatedEffort": "Medium (4-8h)",
+      "affectedArea": "CI/CD, QA"
+    },
+    {
+      "gapId": "GAP-002",
+      "title": "No Docker/Docker Compose for reproducible local run and deployment",
+      "description": "There is no Dockerfile/docker-compose to run backend + frontend together in a standardized environment.",
+      "evidence": "Repo tree at commit 52d33cc: no Dockerfile, no docker-compose.yml.",
+      "impact": "Onboarding and deployment are less repeatable; env drift is more likely.",
+      "priority": "Medium",
+      "estimatedEffort": "Medium (4-8H)",
+      "affectedArea": "DevOps/Deployment"
+    },
+    {
+      "gapId": "GAP-003",
+      "title": "No application health endpoints (Actuator) for observability",
+      "description": "Backend doesn't include Spring Boot Actuator, so there are no /actuator/health or metrics endpoints for runtime monitoring.",
+      "evidence": "backend/pom.xml contains no spring-boot-starter-actuator dependency.",
+      "impact": "Harder to monitor uptime, debug prod issues, and integrate with load balancers/health checks.",
+      "priority": "Medium",
+      "estimatedEffort": "Small (1-2h)",
+      "affectedArea": "Observability/Operations"
+    },
+    {
+      "gapId": "GAP-004",
+      "title": "Missing CORS configuration for non-proxied frontend deployments",
+      "description": "Backend doesn't explicitly configure CORS. Vite rolls through a proxy in dev, but production deployments often require CORS allowing frontend domains.",
+      "evidence": "Backend source has no CORS config (e.g. WebMvcConfigurer) and no spring-security.",
+      "impact": "Production frontend and API ondifferent domains may fail with browser CORS errors.",
+      "priority": "Medium",
+      "estimatedEffort": "Small (1-2h)",
+      "affectedArea": "Backend API/Security/UX"
+    },
+    {
+      "gapId": "GAP-005",
+      "title": "No authentication/authorization (all Todos are public)",
+      "description": "API exposes full CRUD endpoints without user context. For a real task app, todos should be scoped to a user or account, or explicitly documented as single-user.",
+      "evidence": "There is no spring-boot-starter-security in pom.xml, and controller exposes /api/todos.",
+      "impact": "Data exposure risk if deployed publicly; cannot extend to multi-user scenarios easily.",
+      "priority": "High",
+      "estimatedEffort": "Large (2-4d)",
+      "affectedArea": "Security/BACKEND API"
+    },
+    {
+      "gapId": "GAP-006",
+      "title": "Frontend has no unit/component tests",
+      "description": "The frontend setup contains no test runner (e.g. Vitest/Jest) or test scripts.",
+      "evidence": "frontend/package.json has no test script, and no test dependencies.",
+      "impact": "Ui and data flow regressions are harder to catch; refactors less safe.",
+      "priority": "Medium",
+      "estimatedEffort": "Medium (4-8h)",
+      "affectedArea": "Frontend/Testing"
+    },
+    {
+      "gapId": "GAP-007",
+      "title": "Backend test coverage is minimal (only basic controller tests)",
+      "description": "While there are backend tests, the suite is small and does not explicitly cover repository/service layer and error scenarios comprehensively.",
+      "evidence": "backend/src/test/java/com/example/todo/controller/TodoControllerTest.java and TodoApplicationTests.java only.",
+      "impact": "Changes to data access and business logic can break undetected.",
+      "priority": "Medium",
+      "estimatedEffort": "Medium (4-12h)",
+      "affectedArea": "Backend/Testing"
+    },
+    {
+      "gapId": "GAP-008",
+      "title": "No API contract documentation (OpenAPI/ Swagger)",      "description": "The API is documented in README but there is no machine-readable contract (OpenAPI spec) or Swagger UI.",
+      "evidence": "There is no springdoc-openapi dependency in backend/pom.xml, and no /openapi.json files.",      "impact": "Harder to integrate clients; docs can drift from reality.",
+      "priority": "Low",
+      "estimatedEffort": "Medium (4-8h)",
+      "affectedArea": "Documentation/API"
+    },
+    {
+      "gapId": "GAP-009",
+      "title": "No environment config strategy (profiles, env variables)",
+      "description": "Backend uses a hard-coded SQLite database path (./data/todo.db) in application.yml without environment-specific profiles or override docs.",      "evidence": "backend/src/main/resources/application.yml set spring.datasource.url to jdbc:sqlite:./data/todo.db.",      "impact": "Dev/test/prod configs are not clearly separated; deployment needs manual edits.",
+      "priority": "Medium",      "estimatedEffort": "Small (1-2h)",
+      "affectedArea": "Configuration/Operations"
+    },
+    {
+      "gapId": "GAP-010",
+      "title": "Obsolete handoff artifact present: gap-analysis-state.json",
+      "description": "Repo contains docs/sdlc/handoff/gap-analysis-state.json, but the workflow requires docs/sdlc/handoff/gap-analysis-handoff.json as the only authoritative file. It also references an old commit and claims totalGaps = 20 while only 1 gap object exists.",
+      "evidence": "docs/sdlc/handoff/gap-analysis-state.json exists at commit 52d33cc, its metadata.commit references 1961d8, and totalGaps mismatches gaps.length.",      "impact": "Causes confusion for DLCR personas and possible wrong scope handoffs.",
+      "priority": "High",      "estimatedEffort": "Small (1-2h)",
+      "affectedArea": "DOCS/SDLC/Process"
+    }
+  ]
+}
