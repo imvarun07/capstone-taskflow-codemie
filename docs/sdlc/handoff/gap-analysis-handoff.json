@@ -1,0 +1,139 @@
+{
+  "metadata": {
+    "project": "capstone-taskflow-codemie",
+    "repository": "https://github.com/imvarun07/capstone-taskflow-codemie",
+    "analysisDate": "2026-10-07",
+    "generatedBy": "Capstone Gap Analysis Assistant",
+    "hitlDate": "2026-10-07",
+    "totalGaps": 12,
+    "approvedCount": 8,
+    "deferredCount": 3,
+    "rejectedCount": 1,
+    "testModificationPermission": {
+      "approved": true,
+      "note": "YES, only when required in a later implementation phase; preserve meaningful assertions and do not weaken tests merely to make them pass."
+    }
+  },
+  "workflow": {
+    "status": "HITL_APPROVED",
+    "implementationStatus": "NOT_STARTED",
+    "nextPersona": "Requirements / Jira Assistant",
+    "nextPhase": "Requirements Definition and Jira Creation"
+  },
+  "gaps": [
+    {
+      "id": "GAP-001",
+      "category": "CJ/CD",
+      "title": "No CI workflow to build/lint/test backend + frontend",
+      "description": "No .github/workflows/ directory detected in root listing;"CI' pipeline not present to run backend build/tests and frontend build/lint.",
+      "priority": "High",
+      "effort": "Medium",
+      "classification": "APPROVED"
+    },
+    {
+      "id": "GAP-002",
+      "category": "Deployment/Operational",
+      "title": "No containerization for running full stack",
+      "description": "No Dockerfile or docker-compose files evidenced in root listing; app is run manually via separate backend/frontend commands.",
+      "priority": "High",
+      "effort": "Medium",
+      "classification": "APPROVED"
+    },
+    {
+      "id": "GAP-003",
+      "category": "Testing/Quality",
+      "title": "No frontend automated tests configured",
+      "description": "frontend/package.json has dev/build/lint/preview but no test script or test dependencies (e.g., vitest/jest/playwright).",
+      "priority": "Medium",
+      "effort": "Medium",
+      "classification": "APPROVED"
+    },
+    {
+      "id": "GAP-004",
+      "category": "Testing/Quality",
+      "title": "Missing integration-test coverage for persistence layer",
+      "description": "Backend tests include a context smoke test and a @WebMvcTest controller test with mocked TodoService (backend/src/test/java/../TodoControllerTest.java);"but no evidenced integration tests that hit the SQLite database/repository.",
+      "priority": "Medium",
+      "effort": "Medium",
+      "classification": "APPROVED"
+    },
+    {
+      "id": "GAP-005",
+      "category": "API/Docs",
+      "title": "No machine-readable API contract (OpenAPI/Swagger)",
+      "description": "backend/pom.xml does not include an OpenAPI/Swagger generation dependency (e.g., springdoc); instead there is only a human-readable API section in README.md.",
+      "priority": "Medium",
+      "effort": "Small",
+      "classification": "APPROVED"
+    },
+    {
+      "id": "GAP-006",
+      "category": "Security",
+      "title": "No authentication/authorization protecting API",
+      "description": "No Spring Security dependency evidenced in backend/pom.xml; the TodoController provides public CRUD endpoints under /api/todos.",
+      "priority": "High",
+      "effort": "Large",
+      "classification": "DEFERRED"
+    },
+    {
+      "id": "GAP-007",
+      "category": "Security / Configuration",
+      "title": "CORS policy not explicitly defined for non-dev usage",
+      "description": "frontend/vite.config.ts uses a dev proxy for /api to http://localhost:8080; no backend CORS config was evidenced among the inspected backend config package (config/ contains only DataSourceInitializer.), so cross-origin behavior outside dev proxy is unclear.",
+      "priority": "Medium",
+      "effort": "Small",
+      "classification": "DEFERRED"
+    },
+    {
+      "id": "GAP-008",
+      "category": "Configuration/Environment",
+      "title": "Config not parameterized (DB URL, port, profiles)",
+      "description": "backend/src/main/resources/application.yml hardcodes jsri:csqlite:./data/todo.db and server.port:8080; no profile-specific YAML or env var documentation evidenced.",
+      "priority": "Medium",
+      "effort": "Small",
+      "classification": "APPROVED"
+    },
+    {
+      "id": "GAP-009",
+      "category": "Database/Data management",
+      "title": "No documented seed/reset data lifecycle for dev/test",
+      "description": "Flyway migration exists (backend/src/main/resources/db/migration/V1__create_todos_table.sql) and runtime creates ./data directory (DataSourceInitializer.), but no seeding scripts, test fixtures, or reset tooling/docs were evidenced.",
+      "priority": "Medium",
+      "effort": "Small",
+      "classification": "APPROVED"
+    },
+    {
+      "id": "GAP-010",
+      "category": "Observability/Maintainability",
+      "title": "No health/metrics endpoints (Actuator)",
+      "description": "No spring-boot-starter-actuator dependency evidenced in backend/pom.xml; no health endpoint docs config enidenced.",
+      "priority": "Low",
+      "effort": "Small",
+      "classification": "DEFERRED"
+    },
+    {
+      "id": "GAP-011",
+      "category": "Documentation",
+      "title": "Limited developer documentation beyond basic run steps",
+      "description": "Root README.md provides basic run instructions and an API table; no deticated docs/ tree was evidenced in root listing (pre-handoff).",
+      "priority": "Medium",
+      "effort": "Small",
+      "classification": "APPROVED"
+    },
+    {
+      "id": "GAP-012",
+      "category": "Maintainability/Developer Experience",
+      "title": "No root-level unified workflow (one-command build/test/run)",
+      "description": "Backend and frontend are separate (Maven in backend/, npm in frontend/) and no root-scoped scripts/tooling were evidenced to unify build/test/run.",
+      "priority": "Low",
+      "effort": "Medium",
+      "classification": "REJECTED"
+    }
+  ],
+  "summary": {
+    "approved": 8,
+    "deferred": 3,
+    "rejected": 1,
+    "openQuestions": []
+  }
+}
